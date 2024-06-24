@@ -4,6 +4,8 @@ titulo.innerHTML = "Juego del numero secreto"
 */
 let numeroSecreto = 0;
 let intentos = 0;
+let listaNumerosSorteados = [];
+let numeroMaximo = 10;
 
 // Funcion segunda clase | Parametros
 function asignarTextoElemento(elemento, texto) {
@@ -33,7 +35,22 @@ function verificarIntento() {
 }
 
 function numAleatorio(){
-    return Math.floor(Math.random()*10)+1;
+    let numeroGenerado = Math.floor(Math.random()*numeroMaximo)+1;
+
+    console.log(numeroGenerado)
+    console.log(listaNumerosSorteados)
+    // Si ya sorteamos todos los numero
+    if (listaNumerosSorteados.length == numeroMaximo) {
+        asignarTextoElemento('p', "Ya se sortearon todos los numeros posibles")
+    } else {
+        // Si el numero generado esta en la lista hacemos x si no y
+        if (listaNumerosSorteados.includes(numeroGenerado)) {
+            return numAleatorio() // Recursividad
+        } else {
+            listaNumerosSorteados.push(numeroGenerado)
+            return numeroGenerado
+        }
+    }
 }
 
 function  limpiarCaja(){
@@ -43,7 +60,7 @@ function  limpiarCaja(){
 function condicionesInicial() {
     // Invocación de la funcion "asignarTextoElemento" 
     asignarTextoElemento('h1', "Juego del numero secreto")
-    asignarTextoElemento('p', "Indica un numero entre 1 y 10")
+    asignarTextoElemento('p', `Indica un numero entre 1 y ${numeroMaximo}`)
     numeroSecreto = numAleatorio()
     intentos = 1
 }
